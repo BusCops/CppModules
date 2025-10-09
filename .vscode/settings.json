@@ -1,5 +1,6 @@
 {
 	"files.associations": {
+		"string": "cpp",
 		"cctype": "cpp",
 		"clocale": "cpp",
 		"cmath": "cpp",
@@ -16,7 +17,6 @@
 		"concepts": "cpp",
 		"cstdint": "cpp",
 		"deque": "cpp",
-		"string": "cpp",
 		"unordered_map": "cpp",
 		"vector": "cpp",
 		"exception": "cpp",
@@ -42,6 +42,9 @@
 		"ostream": "cpp",
 		"stdexcept": "cpp",
 		"streambuf": "cpp",
-		"typeinfo": "cpp"
+		"typeinfo": "cpp",
+		"ctime": "cpp",
+		"iomanip": "cpp",
+		"sstream": "cpp"
 	}
 }
