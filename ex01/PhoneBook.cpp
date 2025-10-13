@@ -100,7 +100,7 @@ void	PhoneBook :: SearchContact()
 		return ;
 	}
 	PrintArrayHead();
-	while (i < 4 && !contact[i].GetFirstName().empty())
+	while (i < 8 && !contact[i].GetFirstName().empty())
 	{
 		std :: cout << "|         " << i;
 		PrintRowInfo(contact[i].GetFirstName());
