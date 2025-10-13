@@ -110,7 +110,7 @@ void	PhoneBook :: SearchContact()
 		i++;
 	}
 	PrintMsg("---------------------------------------------");
-	PrintMsg("Give me the index of what contact are you looking for ?");
+	PrintMsg("Enter the index of the contact you’re looking for:");
 	while (true)
 	{	
 		if (!getline(std :: cin, in))
