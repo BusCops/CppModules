@@ -55,13 +55,13 @@ Account :: Account( int initial_deposit )
 void	Account :: displayAccountsInfos( void )
 {
 	_displayTimestamp();
-	std :: cout << "account:" << getNbAccounts() << ";total:" << getTotalAmount() << ";deposit:" << getNbDeposits() << ";withdrawals:" << getNbWithdrawals() << std :: endl; 
+	std :: cout << "accounts:" << getNbAccounts() << ";total:" << getTotalAmount() << ";deposits:" << getNbDeposits() << ";withdrawals:" << getNbWithdrawals() << std :: endl; 
 }
 
 void	Account :: displayStatus( void ) const
 {
 	_displayTimestamp();
-	std :: cout << "index:" << _accountIndex << ";amount:" << _amount << ";deposit:" << _nbDeposits << ";withdrawals:" << _nbWithdrawals << std :: endl; 
+	std :: cout << "index:" << _accountIndex << ";amount:" << _amount << ";deposits:" << _nbDeposits << ";withdrawals:" << _nbWithdrawals << std :: endl; 
 }
 
 void	Account :: makeDeposit( int deposit )
@@ -74,7 +74,7 @@ void	Account :: makeDeposit( int deposit )
 	_nbDeposits++;
 	_totalNbDeposits++;
 	_displayTimestamp();
-	std :: cout << "index:" << _accountIndex << ";p_amount:" << Pamount << ";deposit:" << deposit << ";amount:" << _amount << ";nb_deposit:" << _nbDeposits << std :: endl; 
+	std :: cout << "index:" << _accountIndex << ";p_amount:" << Pamount << ";deposit:" << deposit << ";amount:" << _amount << ";nb_deposits:" << _nbDeposits << std :: endl; 
 }
 
 int		Account :: checkAmount( void ) const
@@ -89,7 +89,7 @@ bool	Account :: makeWithdrawal( int withdrawal )
 	if (_amount - withdrawal < 0)
 	{
 		_displayTimestamp();
-		std :: cout << "index:" << _accountIndex << ";p_amount:" << _amount << ";withrawal:" << "refused" << std :: endl;
+		std :: cout << "index:" << _accountIndex << ";p_amount:" << _amount << ";withdrawal:" << "refused" << std :: endl;
 		return false;
 	}
 	Pamount = _amount;
@@ -98,7 +98,7 @@ bool	Account :: makeWithdrawal( int withdrawal )
 	_nbWithdrawals++;
 	_totalNbWithdrawals++;
 	_displayTimestamp();
-	std :: cout << "index:" << _accountIndex << ";p_amount:" << Pamount << ";withrawal:" << withdrawal << ";amount:" << _amount << ";nb_withrawals:" << _nbWithdrawals << std :: endl; 
+	std :: cout << "index:" << _accountIndex << ";p_amount:" << Pamount << ";withdrawal:" << withdrawal << ";amount:" << _amount << ";nb_withdrawals:" << _nbWithdrawals << std :: endl; 
 	return true;
 }
 
