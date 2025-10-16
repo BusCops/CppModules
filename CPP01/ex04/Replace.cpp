@@ -31,7 +31,7 @@ void	Replace::ReplaceStrings()
 		{
 			line.erase(pos, s1.length());
 			line.insert(pos, s2);
-			pos = line.find(s1);
+			pos = line.find(s1, pos + s2.length());
 		}
 		newfile << line << std::endl;
 	}
