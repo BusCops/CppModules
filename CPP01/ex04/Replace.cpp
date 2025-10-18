@@ -10,12 +10,12 @@ Replace::Replace(std::string &string1, std::string &string2, std::string &file):
 void	Replace::ReplaceStrings()
 {
 	std::ifstream file(this->file.c_str());
-	if (file.fail())
+	if (!file.is_open())
 	{
 		std::cerr << "Error opening file" << std::endl;
 		return ;
 	}
-	std::ofstream newfile("newfile");
+	std::ofstream newfile((this->file + ".replace").c_str());
 	if (!newfile.is_open())
 	{
 		std::cerr << "Error creating file" << std::endl;

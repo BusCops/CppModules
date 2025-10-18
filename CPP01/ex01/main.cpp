@@ -7,6 +7,8 @@ int main()
 	int	n = 6;
 
 	zombies = zombieHorde(n, "3alawi");
+	if (!zombies)
+		return 1;
 	while (i < n)
 	{
 		zombies[i].announce();

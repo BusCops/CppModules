@@ -14,7 +14,6 @@ ${NAME} :
 clean :
 	rm -rf ${NAME}
 
-re :
-	clean all
+re : clean all
 
 .PHONEY : clean all re
