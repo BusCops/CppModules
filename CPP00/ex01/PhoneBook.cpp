@@ -1,6 +1,6 @@
 #include "PhoneBook.hpp"
 
-void	PhoneBook :: UpdateIndex()
+void PhoneBook::UpdateIndex()
 {
 	if (index < 7)
 		index++;
@@ -8,17 +8,17 @@ void	PhoneBook :: UpdateIndex()
 		index = 0;
 }
 
-void	PhoneBook :: SetIndex(int i)
+void PhoneBook::SetIndex(int i)
 {
 	index = i;
 }
 
-bool	VerifyInfo(std :: string &info)
+bool VerifyInfo(std::string &info)
 {
-	int	i = 0;
-	int	c = 0;
+	int i = 0;
+	int c = 0;
 
-	while(info[i])
+	while (info[i])
 	{
 		if (info[i] == '\t')
 			info[i] = ' ';
@@ -33,38 +33,38 @@ bool	VerifyInfo(std :: string &info)
 	return true;
 }
 
-std :: string	GetInfo()
+std::string GetInfo()
 {
-	std :: string info;
+	std::string info;
 
 	while (true)
 	{
-		if (!getline(std :: cin, info))
-			break ;
+		if (!getline(std::cin, info))
+			break;
 		if (!info.empty() && VerifyInfo(info))
 			break;
 		else
-			std :: cout << "Please enter a valid information" << std :: endl;
+			std::cout << "Please enter a valid information" << std::endl;
 	}
 	return info;
 }
 
-bool	PrintMsg(std :: string msg)
+bool PrintMsg(std::string msg)
 {
-	if (std :: cin.eof())
+	if (std::cin.eof())
 		return false;
-	std :: cout << msg << std :: endl;  
+	std::cout << msg << std::endl;
 	return true;
 }
 
-void	PhoneBook :: AddContat()
+void PhoneBook::AddContat()
 {
 	UpdateIndex();
 	if (PrintMsg("enter first name :"))
 		contact[index].SetFirstName(GetInfo());
 	if (PrintMsg("enter last name :"))
 		contact[index].SetLastName(GetInfo());
-	if (PrintMsg("enter nick name :"))  
+	if (PrintMsg("enter nick name :"))
 		contact[index].SetNickName(GetInfo());
 	if (PrintMsg("enter phone number :"))
 		contact[index].SetPhoneNumber(GetInfo());
@@ -73,48 +73,48 @@ void	PhoneBook :: AddContat()
 	PrintMsg("Your contact has been added successfully");
 }
 
-void	PrintArrayHead()
+void PrintArrayHead()
 {
 	PrintMsg("---------------------------------------------");
 	PrintMsg("|  index   |first name|last name | nickname |");
 	PrintMsg("---------------------------------------------");
 }
 
-void	PrintRowInfo(std :: string info)
+void PrintRowInfo(std::string info)
 {
-	std :: cout << "|";
+	std::cout << "|";
 	if (info.length() > 10)
-		std :: cout << info.substr(0, 9) + ".";
+		std::cout << info.substr(0, 9) + ".";
 	else
-		std :: cout << std :: setw(10) << std :: right << info;
+		std::cout << std::setw(10) << std::right << info;
 }
 
-void	PhoneBook :: SearchContact()
+void PhoneBook::SearchContact()
 {
-	int	i = 0;
-	std :: string in;
+	int i = 0;
+	std::string in;
 
 	if (index == -1)
 	{
 		PrintMsg("No contact added yet");
-		return ;
+		return;
 	}
 	PrintArrayHead();
 	while (i < 8 && !contact[i].GetFirstName().empty())
 	{
-		std :: cout << "|         " << i;
+		std::cout << "|         " << i;
 		PrintRowInfo(contact[i].GetFirstName());
 		PrintRowInfo(contact[i].GetLastName());
 		PrintRowInfo(contact[i].GetNickName());
-		std :: cout << "|" << std :: endl;
+		std::cout << "|" << std::endl;
 		i++;
 	}
 	PrintMsg("---------------------------------------------");
 	PrintMsg("Enter the index of the contact you’re looking for:");
 	while (true)
-	{	
-		if (!getline(std :: cin, in))
-			return ;
+	{
+		if (!getline(std::cin, in))
+			return;
 		if (in.length() == 1 && isdigit(in[0]))
 		{
 			i = atoi(in.c_str());
@@ -125,14 +125,13 @@ void	PhoneBook :: SearchContact()
 	if (i > 7 || contact[i].GetFirstName().empty())
 	{
 		PrintMsg("there is no contact with this index!");
-		return ;
+		return;
 	}
 	PrintArrayHead();
-	std :: cout << "|         " << i;
+	std::cout << "|         " << i;
 	PrintRowInfo(contact[i].GetFirstName());
 	PrintRowInfo(contact[i].GetLastName());
 	PrintRowInfo(contact[i].GetNickName());
-	std :: cout << "|" << std :: endl;
+	std::cout << "|" << std::endl;
 	PrintMsg("---------------------------------------------");
-
 }

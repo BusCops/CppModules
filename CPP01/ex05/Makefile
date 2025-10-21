@@ -2,7 +2,7 @@ NAME = HARL
 
 CPP = c++
 
-CPPFLAGS = -Wall -Wextra -Werror -std=c++98
+CPPFLAGS = -Wall -Wextra -Werror -std=c++98 -g
 
 SRC = main.cpp Harl.cpp
 

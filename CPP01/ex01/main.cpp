@@ -2,9 +2,9 @@
 
 int main()
 {
-	Zombie* zombies;
+	Zombie *zombies;
 	int i = 0;
-	int	n = 6;
+	int n = 6;
 
 	zombies = zombieHorde(n, "3alawi");
 	if (!zombies)

@@ -1,16 +1,20 @@
 #include "Zombie.hpp"
 
-Zombie :: ~Zombie()
+Zombie::~Zombie()
 {
-	std :: cout << "Zombie Killed !" << std :: endl;
+	std ::cout << "Zombie Killed !" << std ::endl;
 }
 
-void	Zombie :: SetZombieName(std :: string Name)
+Zombie::Zombie()
 {
-	name = Name;
 }
 
-void	Zombie :: announce(void)
+Zombie::Zombie(std::string name)
+	: name(name)
 {
-	std :: cout << name << ": BraiiiiiiinnnzzzZ..." << std :: endl;
+}
+
+void Zombie::announce(void)
+{
+	std::cout << name << ": BraiiiiiiinnnzzzZ..." << std::endl;
 }

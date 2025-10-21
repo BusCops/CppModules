@@ -3,16 +3,18 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 class Replace
 {
-	private:
-		std::string s1;
-		std::string s2;
-		std::string file;
-	public:
-		Replace(std::string &string1, std::string &string2, std::string &file);
-		void	ReplaceStrings();
+private:
+	std::string s1;
+	std::string s2;
+	std::string file;
+
+public:
+	Replace(std::string &string1, std::string &string2, std::string &file);
+	void ReplaceStrings();
 };
 
 #endif

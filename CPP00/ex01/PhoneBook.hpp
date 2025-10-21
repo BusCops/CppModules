@@ -6,18 +6,19 @@
 #include <cstdlib>
 #include "Contact.hpp"
 
-bool	PrintMsg(std :: string msg);
+bool PrintMsg(std::string msg);
 
 class PhoneBook
 {
-	private :
-		Contact contact[8];
-		int		index;
-	public :
-		void	UpdateIndex();
-		void	SetIndex(int i);
-		void	AddContat();
-		void	SearchContact();
+private:
+	Contact contact[8];
+	int index;
+
+public:
+	void UpdateIndex();
+	void SetIndex(int i);
+	void AddContat();
+	void SearchContact();
 };
 
 #endif

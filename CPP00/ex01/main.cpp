@@ -5,16 +5,16 @@ int main()
 {
 	PhoneBook pb;
 
-	std :: string option;
+	std::string option;
 
-	std :: cout << "Welcome to PhoneBook" << std :: endl;
+	std::cout << "Welcome to PhoneBook" << std::endl;
 	pb.SetIndex(-1);
 	while (option != "EXIT")
-	{	
+	{
 		if (std::cin.eof())
-            break;
+			break;
 		PrintMsg("enter option \n(1) ADD\n(2) SEARCH\n(3) EXIT");
-		if (!getline(std :: cin, option))
+		if (!getline(std::cin, option))
 			break;
 		if (option == "ADD")
 			pb.AddContat();
@@ -25,5 +25,5 @@ int main()
 		else
 			PrintMsg("Please enter a valid input !");
 	}
-	std :: cout << "thanks for using our PhoneBook app Goodbye!" << std :: endl;
+	std::cout << "thanks for using our PhoneBook app Goodbye!" << std::endl;
 }
