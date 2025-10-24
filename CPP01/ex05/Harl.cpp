@@ -24,7 +24,8 @@ void Harl::complain(std::string level)
 	int i = 0;
 	void (Harl::*Mfp[4])() = {&Harl::debug, &Harl::info, &Harl::warning, &Harl::error};
 	std::string levels[4] = {"DEBUG", "INFO", "WARNING", "ERROR"};
-	while (levels[i] != level)
+	while (levels[i] != level && i < 4)
 		i++;
-	(this->*Mfp[i])();
+	if (i < 4)
+		(this->*Mfp[i])();
 }
