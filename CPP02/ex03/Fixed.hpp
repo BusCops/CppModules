@@ -29,10 +29,10 @@ public:
     bool operator<=(const Fixed &other) const;
     bool operator!=(const Fixed &other) const;
     // arithmetic operators
-    float operator*(const Fixed &other);
-    float operator+(const Fixed &other);
-    float operator-(const Fixed &other);
-    float operator/(const Fixed &other);
+    Fixed operator*(const Fixed &other) const;
+    Fixed operator+(const Fixed &other) const;
+    Fixed operator-(const Fixed &other) const;
+    Fixed operator/(const Fixed &other) const;
     // increment / decrement
     Fixed& operator++();
     Fixed& operator--();

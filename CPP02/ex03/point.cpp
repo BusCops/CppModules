@@ -1,31 +1,48 @@
-#include <point.hpp>
+#include "point.hpp"
 
 Point::Point()
 :x(0), y(0)
 {
 }
 
-Point::Point(int x, int y)
+Point::Point(const float& x, const float& y)
 :x(x), y(y)
 {
 }
 
-Point& Point::operator=(const Point& point)
+Point& Point::operator=(const Point&)
 {
-	if (this != &point)
-	{
-		x = point.x;
-		y = point.y;
-	}
 	return *this;
 }
 
-int Point::GetX()const
+Point::Point(const Point& other)
+: x(other.x), y(other.y)
 {
-	return x;
 }
 
-int Point::GetY()const
+float Point::GetX()const
 {
-	return y;
+	std::cout << "debug x " << x.toFloat() << std::endl;
+	return x.toFloat();
+}
+
+float Point::GetY()const
+{
+	std::cout << "debug y " << y.toFloat() << std::endl;
+	return y.toFloat();
+}
+
+Point::~Point()
+{
+}
+
+float Point::CalculateArea(const Point &a, const Point &b, const Point &c)
+{
+	Fixed total = a.x * (b.y - c.y);
+	total = total + (b.x * (c.y - a.y));
+	total = total + (c.x * (a.y - b.y));
+	float Total = total.toFloat() / 2.0f;
+	if (Total < 0)
+    	return -Total;
+	return Total;
 }

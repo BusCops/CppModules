@@ -60,7 +60,7 @@ std::ostream& operator<<(std::ostream &cout, const Fixed &fixed)
     return cout;
 }
 
-float Fixed::operator*(const Fixed &other)
+Fixed Fixed::operator*(const Fixed &other) const
 {
     float x = Number;
     float y = other.Number;
@@ -68,21 +68,21 @@ float Fixed::operator*(const Fixed &other)
     return ((x * y) / fract);
 }
 
-float Fixed::operator+(const Fixed &other)
+Fixed Fixed::operator+(const Fixed &other) const
 {
     float x = Number;
     float y = other.Number;
     return  ((x + y) / (1 << FractionalBits));
 }
 
-float Fixed::operator-(const Fixed &other)
+Fixed Fixed::operator-(const Fixed &other) const
 {
     float x = Number;
     float y = other.Number;
     return  ((x - y) / (1 << FractionalBits));
 }
 
-float Fixed::operator/(const Fixed &other)
+Fixed Fixed::operator/(const Fixed &other) const
 {
     float x = Number;
     float y = other.Number;

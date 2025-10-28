@@ -1,19 +1,26 @@
 #ifndef POINT_HPP
 #define POINT_HPP
 
+#include "Fixed.hpp"
+
 class Point
 {
 
 private :
-	int x;
-	int y;
+	const Fixed x;
+	const Fixed y;
 public :
 	Point();
-	Point(int x, int y);
+	Point(const float& x, const float& y);
+	Point(const Point& other);
 	Point& operator=(const Point& point);
-	int GetX()const;
-	int GetY()const;
+	~Point();
+	static float CalculateArea(const Point &a, const Point &b, const Point &c);
+	float GetX()const;
+	float GetY()const;
 
 };
+
+bool bsp( Point const a, Point const b, Point const c, Point const point);
 
 #endif
