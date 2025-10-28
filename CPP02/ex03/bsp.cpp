@@ -1,6 +1,6 @@
 #include "point.hpp"
 
-bool bsp( Point const a, Point const b, Point const c, Point const point)
+bool bsp(Point const a, Point const b, Point const c, Point const point)
 {
 	float AreaA = Point::CalculateArea(point, a, c);
 	float AreaB = Point::CalculateArea(point, a, b);

@@ -6,21 +6,21 @@
 class Point
 {
 
-private :
+private:
 	const Fixed x;
 	const Fixed y;
-public :
+
+public:
 	Point();
-	Point(const float& x, const float& y);
-	Point(const Point& other);
-	Point& operator=(const Point& point);
+	Point(const float &x, const float &y);
+	Point(const Point &other);
+	Point &operator=(const Point &point);
 	~Point();
 	static float CalculateArea(const Point &a, const Point &b, const Point &c);
-	float GetX()const;
-	float GetY()const;
-
+	float GetX() const;
+	float GetY() const;
 };
 
-bool bsp( Point const a, Point const b, Point const c, Point const point);
+bool bsp(Point const a, Point const b, Point const c, Point const point);
 
 #endif

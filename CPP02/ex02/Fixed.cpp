@@ -3,16 +3,16 @@
 const int Fixed::FractionalBits = 8;
 
 Fixed::Fixed()
-:Number(0)
+    : Number(0)
 {
 }
 
-Fixed::Fixed(const Fixed& other)
+Fixed::Fixed(const Fixed &other)
 {
     *this = other;
 }
 
-Fixed& Fixed::operator=(const Fixed& other)
+Fixed &Fixed::operator=(const Fixed &other)
 {
     if (this != &other)
         Number = other.Number;
@@ -23,12 +23,12 @@ Fixed::~Fixed()
 {
 }
 
-int Fixed::getRawBits( void ) const
+int Fixed::getRawBits(void) const
 {
     return Number;
 }
 
-void Fixed::setRawBits( int const raw )
+void Fixed::setRawBits(int const raw)
 {
     Number = raw;
 }
@@ -43,24 +43,24 @@ Fixed::Fixed(const float number)
     Number = roundf(number * (1 << FractionalBits));
 }
 
-float Fixed::toFloat( void ) const
+float Fixed::toFloat(void) const
 {
     float f = Number;
     return (f / (1 << FractionalBits));
 }
 
-int Fixed::toInt( void ) const
+int Fixed::toInt(void) const
 {
-    return (Number /  (1 << FractionalBits));
+    return (Number / (1 << FractionalBits));
 }
 
-std::ostream& operator<<(std::ostream &cout, const Fixed &fixed)
+std::ostream &operator<<(std::ostream &cout, const Fixed &fixed)
 {
     cout << fixed.toFloat();
     return cout;
 }
 
-float Fixed::operator*(const Fixed &other)
+Fixed Fixed::operator*(const Fixed &other) const
 {
     float x = Number;
     float y = other.Number;
@@ -68,21 +68,21 @@ float Fixed::operator*(const Fixed &other)
     return ((x * y) / fract);
 }
 
-float Fixed::operator+(const Fixed &other)
+Fixed Fixed::operator+(const Fixed &other) const
 {
     float x = Number;
     float y = other.Number;
-    return  ((x + y) / (1 << FractionalBits));
+    return ((x + y) / (1 << FractionalBits));
 }
 
-float Fixed::operator-(const Fixed &other)
+Fixed Fixed::operator-(const Fixed &other) const
 {
     float x = Number;
     float y = other.Number;
-    return  ((x - y) / (1 << FractionalBits));
+    return ((x - y) / (1 << FractionalBits));
 }
 
-float Fixed::operator/(const Fixed &other)
+Fixed Fixed::operator/(const Fixed &other) const
 {
     float x = Number;
     float y = other.Number;
@@ -120,13 +120,13 @@ bool Fixed::operator!=(const Fixed &other) const
     return (Number != other.Number);
 }
 
-Fixed& Fixed::operator++()
+Fixed &Fixed::operator++()
 {
     Number++;
     return *this;
 }
 
-Fixed& Fixed::operator--()
+Fixed &Fixed::operator--()
 {
     Number--;
     return *this;
@@ -146,7 +146,7 @@ Fixed Fixed::operator--(int)
     return tmp;
 }
 
-Fixed& Fixed::min(Fixed& first, Fixed& second)
+Fixed &Fixed::min(Fixed &first, Fixed &second)
 {
     if (first.Number > second.Number)
         return second;
@@ -154,7 +154,7 @@ Fixed& Fixed::min(Fixed& first, Fixed& second)
         return first;
 }
 
-Fixed& Fixed::max(Fixed& first, Fixed& second)
+Fixed &Fixed::max(Fixed &first, Fixed &second)
 {
     if (first.Number > second.Number)
         return first;
@@ -162,7 +162,7 @@ Fixed& Fixed::max(Fixed& first, Fixed& second)
         return second;
 }
 
-const Fixed& Fixed::min(const Fixed& first, const Fixed& second)
+const Fixed &Fixed::min(const Fixed &first, const Fixed &second)
 {
     if (first.Number > second.Number)
         return second;
@@ -170,7 +170,7 @@ const Fixed& Fixed::min(const Fixed& first, const Fixed& second)
         return first;
 }
 
-const Fixed& Fixed::max(const Fixed& first, const Fixed& second)
+const Fixed &Fixed::max(const Fixed &first, const Fixed &second)
 {
     if (first.Number > second.Number)
         return first;

@@ -29,21 +29,20 @@ public:
     bool operator<=(const Fixed &other) const;
     bool operator!=(const Fixed &other) const;
     // arithmetic operators
-    float operator*(const Fixed &other);
-    float operator+(const Fixed &other);
-    float operator-(const Fixed &other);
-    float operator/(const Fixed &other);
+    Fixed operator*(const Fixed &other) const;
+    Fixed operator+(const Fixed &other) const;
+    Fixed operator-(const Fixed &other) const;
+    Fixed operator/(const Fixed &other) const;
     // increment / decrement
-    Fixed& operator++();
-    Fixed& operator--();
+    Fixed &operator++();
+    Fixed &operator--();
     Fixed operator++(int);
     Fixed operator--(int);
     //=======================================//
-    static Fixed&  min(Fixed& first, Fixed& second);
-    static Fixed&  max(Fixed& first, Fixed& second);
-    static const Fixed&  min(const Fixed& first, const Fixed& second);
-    static const Fixed&  max(const Fixed& first, const Fixed& second);
-
+    static Fixed &min(Fixed &first, Fixed &second);
+    static Fixed &max(Fixed &first, Fixed &second);
+    static const Fixed &min(const Fixed &first, const Fixed &second);
+    static const Fixed &max(const Fixed &first, const Fixed &second);
 };
 
 std::ostream &operator<<(std::ostream &cout, const Fixed &fixed);
