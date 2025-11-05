@@ -66,6 +66,12 @@
 		"cinttypes": "cpp",
 		"typeindex": "cpp",
 		"valarray": "cpp",
-		"variant": "cpp"
+		"variant": "cpp",
+		"charconv": "cpp",
+		"format": "cpp",
+		"queue": "cpp",
+		"ranges": "cpp",
+		"span": "cpp",
+		"text_encoding": "cpp"
 	}
 }
