@@ -13,13 +13,11 @@ int main()
 	i->makeSound();
 	j->makeSound();
 	meta->makeSound();
-	delete meta;
-	delete j;
-	delete i;
-	std::cout << "----------------------------------------------------------" << std::endl;
-	const WrongAnimal *test = new WrongCat();
-	std::cout << test->getType() << " " << std::endl;
-	test->makeSound();
+	const Dog dog;
+	const Animal *test = new Dog(dog);
 	delete test;
+	delete i;
+	delete j;
+	delete meta;
 	return 0;
 }

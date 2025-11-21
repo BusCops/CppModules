@@ -1,10 +1,10 @@
-NAME = Animal
+NAME = AMateria
 
 CC = c++
 
-CPPFLAGS = -Wall -Wextra -Werror -std=c++98 -g
+CPPFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRC = Animal.cpp Cat.cpp Dog.cpp WrongCat.cpp WrongAnimal.cpp main.cpp
+SRC = AMateria.cpp Concrete.cpp ICharacter.cpp main.cpp
 
 RM = rm -rf
 
