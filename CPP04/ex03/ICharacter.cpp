@@ -74,10 +74,7 @@ void Character::equip(AMateria* m)
 	for(i = 0;i < 4 && inventory[i] != NULL;i++)
 	{}
 	if (i < 4)
-	{
 		inventory[i] = m;
-		std::cout << name << " equip a AMateria " << inventory[i]->getType() << std::endl;
-	}
 }
 
 void Character::unequip(int idx)
@@ -85,10 +82,7 @@ void Character::unequip(int idx)
 	if (idx > 4 || idx < 0 || inventory[idx] == NULL)
 		return ;
 	else
-	{
-		std::cout << name << " unequiped a AMateria " << inventory[idx]->getType() << std::endl; 
 		inventory[idx] = NULL;
-	}
 }
 
 void Character::use(int idx, ICharacter& target)
