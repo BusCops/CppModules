@@ -6,16 +6,14 @@ Ice::Ice() : AMateria("ice")
 {
 }
 
-Ice::Ice(const Ice &other)
+Ice::Ice(const Ice &other) : AMateria("ice")
 {
+	(void)other;
 	*this = other;
 }
 Ice& Ice::operator=(const Ice &other)
 {
-	if (this != &other)
-	{
-		//AMateria::operator=(other); need to know what to do here ;D
-	}
+	(void)other;
 	return *this;
 }
 
@@ -38,16 +36,14 @@ Cure::Cure() : AMateria("cure")
 {
 }
 
-Cure::Cure(const Cure &other)
+Cure::Cure(const Cure &other) : AMateria("cure")
 {
 	*this = other;
 }
+
 Cure& Cure::operator=(const Cure &other)
 {
-	if (this != &other)
-	{
-		//AMateria::operator=(other); need to know what to do here ;D
-	}
+	(void)other;
 	return *this;
 }
 
@@ -62,4 +58,73 @@ Cure* Cure::clone() const
 void Cure::use(ICharacter& target)
 {
 	std::cout <<  "* heals " << target.getName() << "’s wounds *" << std::endl;
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+
+void	InistializeSource(AMateria **Source)
+{
+	for (int i = 0; i < 4;i++)
+		Source[i] = NULL;
+}
+
+MateriaSource::MateriaSource()
+{
+	InistializeSource(Source);
+}
+
+MateriaSource::MateriaSource(const MateriaSource& other)
+{
+	InistializeSource(Source);
+	*this = other;
+}
+
+MateriaSource& MateriaSource::operator=(const MateriaSource& other)
+{
+	if (this != &other)
+	{
+		for (int i = 0;i < 4;i++)
+		{
+			if (Source[i])
+				delete Source[i];
+			Source[i] = NULL;
+		}
+
+		for (int i = 0;i < 4;i++)
+		{
+			if (other.Source[i])
+				Source[i] = other.Source[i]->clone();
+		}
+	}
+	return *this;
+}
+
+MateriaSource::~MateriaSource()
+{
+	for( int i = 0;i < 4;i++)
+	{
+		if (Source[i])
+			delete Source[i];
+	}
+}
+
+void MateriaSource::learnMateria(AMateria* m)
+{
+	if (!m)
+		return;
+	int i = 0;
+	for(i = 0;i < 4 && Source[i] != NULL;i++)
+	{}
+	if (i < 4)
+		Source[i] = m->clone();
+}
+
+AMateria* MateriaSource::createMateria(std::string const & type)
+{
+	for (int i = 0;i < 4;i++)
+	{
+		if (type == Source[i]->getType())
+			return Source[i]->clone();
+	}
+	return NULL;
 }

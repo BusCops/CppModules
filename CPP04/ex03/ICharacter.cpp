@@ -1,6 +1,7 @@
 #include "AMateria.hpp"
 #include "Concrete.hpp"
 #include "ICharacter.hpp"
+#include <stdio.h>
 
 void	InistializeInventory(AMateria **inventory)
 {
@@ -30,15 +31,31 @@ Character& Character::operator=(const Character &other)
 {
 	if (this != &other)
 	{
-		
+		for (int i = 0;i < 4;i++)
+		{
+			if (inventory[i])
+				delete inventory[i];
+			inventory[i] = NULL;
+		}
+
+		for (int i = 0;i < 4;i++)
+		{
+			if (other.inventory[i])
+				inventory[i] = other.inventory[i]->clone();
+		}
 		name = other.name;
 	}
-	return *this;
+	return *this; 
 }
 
 Character::~Character()
-{}
-
+{
+	for( int i = 0;i < 4;i++)
+	{
+		if (inventory[i])
+			delete inventory[i];
+	}
+}
 std::string const& Character::getName() const
 {
 	return name;
@@ -46,13 +63,20 @@ std::string const& Character::getName() const
 
 void Character::equip(AMateria* m)
 {
+	if (!m)
+		return;
 	int i = 0;
-	for(i = 0;inventory[i] != NULL && i < 4;i++)
+	for(i = 0;i < 4;i++)
+	{
+		if (m == inventory[i])
+			return ;
+	}
+	for(i = 0;i < 4 && inventory[i] != NULL;i++)
 	{}
 	if (i < 4)
 	{
 		inventory[i] = m;
-		std::cout << name << "equip a AMateria " << inventory[i]->getType() << std::endl;
+		std::cout << name << " equip a AMateria " << inventory[i]->getType() << std::endl;
 	}
 }
 
@@ -62,11 +86,11 @@ void Character::unequip(int idx)
 		return ;
 	else
 	{
-		std::cout << name << "unequiped a AMateria " << inventory[idx]->getType() << std::endl; 
+		std::cout << name << " unequiped a AMateria " << inventory[idx]->getType() << std::endl; 
 		inventory[idx] = NULL;
 	}
 }
-	
+
 void Character::use(int idx, ICharacter& target)
 {
 	if (idx > 4 || idx < 0 || inventory[idx] == NULL)

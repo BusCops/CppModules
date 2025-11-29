@@ -1,22 +1,24 @@
 #include "AMateria.hpp"
 #include "Concrete.hpp"
 #include "ICharacter.hpp"
+#include <stdio.h>
 
-int main ()
+int main()
 {
-	AMateria *cure = new Cure();
-	AMateria *ice = new Ice();
-	ICharacter *jake = new Character("jake");
-
-	jake->equip(cure);
-	jake->equip(cure);
-	jake->equip(ice);
-	jake->equip(cure);
-	jake->equip(ice);
-	jake->unequip(12);
-	jake->unequip(3);
-	jake->equip(ice);
-	jake->use(10, *jake);
-
-	return 0;
+IMateriaSource* src = new MateriaSource();
+src->learnMateria(new Ice());
+src->learnMateria(new Cure());
+ICharacter* me = new Character("me");
+AMateria* tmp;
+tmp = src->createMateria("ice");
+me->equip(tmp);
+tmp = src->createMateria("cure");
+me->equip(tmp);
+ICharacter* bob = new Character("bob");
+me->use(0, *bob);
+me->use(1, *bob);
+delete bob;
+delete me;
+delete src;
+return 0;
 }
