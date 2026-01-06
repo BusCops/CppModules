@@ -5,7 +5,6 @@
 
 class ClapTrap
 {
-
 protected:
 	std::string name;
 	int HP;

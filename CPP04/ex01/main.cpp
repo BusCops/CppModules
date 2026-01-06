@@ -5,19 +5,31 @@
 
 int main()
 {
-	const Animal* meta = new Animal();
-	const Animal* j = new Dog();
-	const Animal* i = new Cat();
-	std::cout << j->getType() << " " << std::endl;
-	std::cout << i->getType() << " " << std::endl;
-	i->makeSound();
-	j->makeSound();
-	meta->makeSound();
-	const Dog dog;
-	const Animal *test = new Dog(dog);
-	delete test;
-	delete i;
-	delete j;
-	delete meta;
-	return 0;
+	const int SIZE = 6; 
+    Animal* animals[SIZE];
+
+    int i = 0;
+    while (i < SIZE / 2) {
+        animals[i] = new Dog();
+        i++;
+    }
+    while (i < SIZE) {
+        animals[i] = new Cat();
+        i++;
+    }
+
+    std::cout << "\n--- Calling sounds ---\n";
+    i = 0;
+    while (i < SIZE) {
+        animals[i]->makeSound();
+        i++;
+    }
+
+    std::cout << "\n--- Deleting animals as Animal* ---\n";
+    i = 0;
+    while (i < SIZE) {
+        delete animals[i];
+        i++;
+    }
+    return 0;
 }

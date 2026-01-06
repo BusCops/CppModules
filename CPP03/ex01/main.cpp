@@ -13,3 +13,4 @@ int main()
 	a.beRepaired(100);
 	a.guardGate();
 }
+

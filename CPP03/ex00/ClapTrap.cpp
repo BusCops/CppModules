@@ -67,7 +67,7 @@ void ClapTrap::takeDamage(unsigned int amount)
 		}
 	}
 	else
-		std::cout << "ClapTrap " << name << " is already dead" << std::endl;
+		std::cout << "ClapTrap " << name << " is already destroyed" << std::endl;
 }
 
 void ClapTrap::beRepaired(unsigned int amount)
