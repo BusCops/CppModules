@@ -2,8 +2,8 @@
 #define ROBOTOMYREQUESTFORM_HPP
 
 #include "AForm.hpp"
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
 
 class RobotomyRequestForm : public AForm
 {
