@@ -16,7 +16,7 @@ Array<T>::Array(unsigned int n) : s(n)
     if (n == 0)
         array = NULL;
     else
-        array = new T[n];
+        array = new T[n]();
 }
 
 template <typename T>
@@ -64,6 +64,7 @@ const T &Array<T>::operator[](unsigned int index) const
 template <typename T>
 unsigned int Array<T>::size() const
 {
+    int i;
     return s;
 }
 
