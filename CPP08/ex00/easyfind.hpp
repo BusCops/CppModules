@@ -13,8 +13,7 @@ typename Container::iterator easyfind(Container &c, int i)
     typename Container::iterator it = std::find(c.begin(), c.end(), i);
     if (it == c.end())
         throw(std::runtime_error("Number Not Found !"));
-    else
-        return it;
+    return it;
 }
 
 #endif
