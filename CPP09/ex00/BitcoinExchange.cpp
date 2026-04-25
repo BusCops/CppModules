@@ -86,7 +86,7 @@ int toInt(const std::string &n)
     if (n[0] == '+')
         throw std::runtime_error("Error : bad input.");
 
-    long num;
+    long num = 0;
 
     for (size_t i = 0; i < n.size(); i++)
     {
@@ -133,8 +133,11 @@ int BitcoinExchange::parseDate(const std::string &date)
     if (date.size() != 10)
         throw std::runtime_error("Error : bad input.");
 
+    if (date[4] != '-' || date[7] != '-')
+        throw std::runtime_error("Error : bad input.");
+
     int year = toInt(date.substr(0, 4));
-    if (year < BTC_RELEASE_YEAR || year >> currentYear)
+    if (year < BTC_RELEASE_YEAR || year > currentYear)
         throw std::runtime_error("Error : bad input.");
 
     int month = toInt(date.substr(5, 2));
@@ -203,10 +206,10 @@ void BitcoinExchange::buildData()
         throw std::runtime_error("Error : opening file.");
 
     std::string line;
-
+    getline(myFile, line);
     while (getline(myFile, line))
     {
-        parseLine(line, ",", true);
+        parseLine(line, ",", true); 
     }
 }
 
