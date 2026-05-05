@@ -11,6 +11,8 @@
 #include <map>
 #include <sstream>
 #include <time.h>
+#include <vector>
+#include <algorithm>
 
 #define BTC_RELEASE_YEAR 2009
 #define SECONDS_IN_DAY   86400
@@ -19,7 +21,6 @@ class BitcoinExchange
 {
   private:
     std::map<int, double> data;
-    std::map<int, double> input;
     std::string           dataFile;
     int                   currentYear;
 
@@ -35,8 +36,10 @@ class BitcoinExchange
 
     int    parseDate(const std::string &date);
     double parseValue(const std::string &value);
-    void
-    parseLine(const std::string &line, const std::string &sep, bool parseMode);
+    void   parseDataLine(const std::string &line, const std::string &sep);
+    void   calculateBitcoinExchange(const std::string file);
+    void   processeInput(const std::string &line, const std::string &sep);
+    void   calculateExchange(int days, double value);
 };
 
 #endif

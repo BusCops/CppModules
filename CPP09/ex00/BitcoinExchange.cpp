@@ -78,13 +78,13 @@ bool isDouble(const std::string &str)
 int toInt(const std::string &n)
 {
     if (!isInt(n))
-        throw std::runtime_error("Error : bad input.");
+        throw std::invalid_argument("Error : bad input.");
 
     if (n[0] == '-')
         throw std::runtime_error("Error : not a positive number.");
 
     if (n[0] == '+')
-        throw std::runtime_error("Error : bad input.");
+        throw std::invalid_argument("Error : bad input.");
 
     long num = 0;
 
@@ -92,7 +92,7 @@ int toInt(const std::string &n)
     {
         num = num * 10 + (n[i] - '0');
         if (num > INT_MAX)
-            throw std::runtime_error("Error : bad input.");
+            throw std::runtime_error("Error : too large a number.");
     }
     return num;
 }
@@ -100,13 +100,13 @@ int toInt(const std::string &n)
 double toDouble(const std::string &n)
 {
     if (!isInt(n) && !isDouble(n))
-        throw std::runtime_error("Error : bad Input.");
+        throw std::invalid_argument("Error : bad Input.");
 
     if (n[0] == '-')
         throw std::runtime_error("Error : not a positive number.");
 
     if (n[0] == '+')
-        throw std::runtime_error("Error : bad input.");
+        throw std::invalid_argument("Error : bad input.");
 
     double            d;
     std::stringstream s(n);
@@ -114,7 +114,7 @@ double toDouble(const std::string &n)
     s >> d;
 
     if (d > INT_MAX)
-        throw std::runtime_error("Error : bad input.");
+        throw std::runtime_error("Error : too large a number.");
 
     return d;
 }
@@ -131,22 +131,22 @@ int daysInMonth(int month, int year)
 int BitcoinExchange::parseDate(const std::string &date)
 {
     if (date.size() != 10)
-        throw std::runtime_error("Error : bad input.");
+        throw std::invalid_argument("Error : bad input.");
 
     if (date[4] != '-' || date[7] != '-')
-        throw std::runtime_error("Error : bad input.");
+        throw std::invalid_argument("Error : bad input.");
 
     int year = toInt(date.substr(0, 4));
     if (year < BTC_RELEASE_YEAR || year > currentYear)
-        throw std::runtime_error("Error : bad input.");
+        throw std::invalid_argument("Error : bad input.");
 
     int month = toInt(date.substr(5, 2));
     if (month > 12 || month < 0)
-        throw std::runtime_error("Error : bad input.");
+        throw std::invalid_argument("Error : bad input.");
 
     int day = toInt(date.substr(8, 2));
     if (day > daysInMonth(month, year))
-        throw std::runtime_error("Error : bad input.");
+        throw std::invalid_argument("Error : bad input.");
 
     std::tm t = {};
     t.tm_year = year - 1900;
@@ -161,38 +161,32 @@ int BitcoinExchange::parseDate(const std::string &date)
 double BitcoinExchange::parseValue(const std::string &value)
 {
     if (value.empty())
-        throw std::runtime_error("Error : bad input.");
+        throw std::invalid_argument("Error : bad input.");
 
     double v = toDouble(value);
 
     return v;
 }
 
-void BitcoinExchange::parseLine(
-    const std::string &line, const std::string &sep, bool parseMode
+void BitcoinExchange::parseDataLine(
+    const std::string &line, const std::string &sep
 )
 {
     size_t sepPos = line.find(sep);
 
     if (sepPos == std::string::npos)
-        throw std::runtime_error("Error : bad input.");
+        throw std::invalid_argument("Error : bad input.");
 
     std::string date = line.substr(0, sepPos);
     int         key  = parseDate(date);
 
-    if (data.find(key) != data.end() && parseMode) // on if data
+    if (data.find(key) != data.end())
         throw std::runtime_error("Error : duplicated date");
 
     std::string value = line.substr(sepPos + sep.size());
     double      v     = parseValue(value);
 
-    if (v > 1000 && !parseMode) // off on input
-        throw std::runtime_error("Error : bad input.");
-
-    if (parseMode)
-        data[key] = v;
-    else
-        input[key] = v;
+    data[key] = v;
 }
 
 void BitcoinExchange::buildData()
@@ -206,14 +200,114 @@ void BitcoinExchange::buildData()
         throw std::runtime_error("Error : opening file.");
 
     std::string line;
+
     getline(myFile, line);
+    if (line != "date,exchange_rate")
+        throw std::invalid_argument("Error : bad input.");
+
     while (getline(myFile, line))
     {
-        parseLine(line, ",", true); 
+        parseDataLine(line, ",");
     }
 }
 
 void BitcoinExchange::buildData(const std::string &file)
 {
-    (void)file;
+    if (file.empty())
+        throw std::runtime_error("Error : file name can't be empty.");
+
+    std::fstream myFile(file.c_str());
+
+    if (!myFile.is_open())
+        throw std::runtime_error("Error : opening file.");
+
+    std::string line;
+
+    getline(myFile, line);
+    if (line != "date,exchange_rate")
+        throw std::invalid_argument("Error : bad input.");
+
+    if (!data.empty())
+        data.clear();
+
+    while (getline(myFile, line))
+    {
+        parseDataLine(line, ",");
+    }
+}
+
+void BitcoinExchange::calculateExchange(int days, double value)
+{
+    if (days < data.begin()->first)
+        throw std::runtime_error("Error : no data for this date.");
+
+    std::map<int, double>::iterator it = data.lower_bound(days);
+    if (it == data.end())
+        throw std::runtime_error("Error :  no data for this date.");
+
+    if (it != data.begin() && it->first != days)
+        it--;
+    std::time_t seconds = days * SECONDS_IN_DAY;
+    std::tm    *tm      = std::localtime(&seconds);
+    char        buffer[11];
+
+    std::sprintf(
+        buffer, "%04d-%02d-%02d", tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday
+    );
+
+    std::cout << buffer << " => " << value << " = " << value * it->second << std::endl;
+}
+
+void BitcoinExchange::processeInput(
+    const std::string &line, const std::string &sep
+)
+{
+    size_t sepPos = line.find(sep);
+
+    if (sepPos == std::string::npos)
+        throw std::invalid_argument("Error : bad input.");
+
+    std::string date = line.substr(0, sepPos);
+    int         d    = parseDate(date);
+    (void)d;
+    std::string value = line.substr(sepPos + sep.size());
+    double      v     = parseValue(value);
+
+    if (v > 1000)
+        throw std::runtime_error("Error : too large a number.");
+
+    calculateExchange(d, v);
+}
+
+void BitcoinExchange::calculateBitcoinExchange(const std::string file)
+{
+    if (file.empty())
+        throw std::runtime_error("Error : file name can't be empty.");
+
+    std::fstream myFile(file.c_str());
+
+    if (!myFile.is_open())
+        throw std::runtime_error("Error : opening file.");
+
+    std::string line;
+
+    getline(myFile, line);
+    if (line != "date | value")
+        throw std::invalid_argument("Error : bad input.");
+
+    while (getline(myFile, line))
+    {
+        try
+        {
+            processeInput(line, " | ");
+        }
+        catch (std::invalid_argument &e)
+        {
+            std::cout << e.what() << " => " << line << std::endl;
+        }
+        catch (std::exception &e)
+        {
+            std::cout << e.what() << std::endl;
+        }
+    }
 }
