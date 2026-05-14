@@ -75,15 +75,15 @@ void PmergeMe<Container, Value_type>::mergeInsertSort(container &nums)
 
     makePairs(nums, pairs);
 
-    container main;
-    container pend;
+    container larger;
+    container smaller;
 
     for (size_t i = 0; i < pairs.size(); i++)
     {
-        main.push_back(pairs[i].second);
-        pend.push_back(pairs[i].first);
+        larger.push_back(pairs[i].second);
+        smaller.push_back(pairs[i].first);
     }
-    mergeInsertSort(main);
+    mergeInsertSort(larger);
 }
 
 template <template <typename, typename> class Container, typename Value_type>
