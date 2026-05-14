@@ -3,7 +3,9 @@
 
 #include <deque>
 #include <iostream>
+#include <limits.h>
 #include <vector>
+#include <algorithm>
 
 template <template <typename, typename> class Container, typename Value_type>
 class PmergeMe
@@ -15,14 +17,22 @@ class PmergeMe
 
     typedef Container<pair_type, std::allocator<pair_type> > pair_container;
 
-    container      data;
-    pair_container pairs;
+    container      main;
+    // pair_container pairs;
+
+    void makePairs(container &nums, pair_container &pairs);
+    void mergeInsertSort(container &nums);
 
   public:
     PmergeMe();
     PmergeMe(const PmergeMe &other);
     PmergeMe &operator=(const PmergeMe &other);
     ~PmergeMe();
+
+    void parseNums(char **av);
+    void sort();
 };
+
+int atoi(const std::string &num);
 
 #endif

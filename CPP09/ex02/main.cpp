@@ -1,22 +1,22 @@
 #include "PmergeMe.hpp"
+#include "PmergeMe.tpp"
 
 int main(int ac, char **av)
 {
-    (void)av;
-    if (ac == 2)
+    if (ac >= 3)
     {
-        PmergeMe<std::vector, int>  obj;
-        std::vector<int>                                             v;
-
-        v.push_back(1);
-        v.push_back(2);
-        v.push_back(3);
-        v.push_back(4);
-        v.push_back(5);
-        v.push_back(6);
-        v.push_back(7);
-        v.push_back(8);
+        PmergeMe<std::deque, int> obj;
+        try
+        {
+            obj.parseNums(av);
+            obj.sort();
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << e.what() << '\n';
+        }
     }
     else
-        std::cout << "Error : ." << std::endl;
+        std::cout << "Usage -> ./PmergeMe 5 2 1 3 (and at least two numbers)"
+                  << std::endl;
 }

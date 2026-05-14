@@ -8,16 +8,18 @@ SRC =  main.cpp PmergeMe.cpp
 
 OBJ = $(SRC:.cpp=.o)
 
-TPP = PmergeMe.tpp
-
-HEADER = PmergeMe.hpp
-
 RM = rm -rf
 
 all: ${NAME}
 
-${NAME} : ${OBJ} ${HEADER} ${TPP}
+${NAME} : ${OBJ}
 	${CPP} ${CPPFLAGS} ${OBJ} -o ${NAME}
+
+main.o: main.cpp PmergeMe.hpp PmergeMe.tpp
+	${CPP} ${CPPFLAGS} -c $< -o $@
+
+PmergeMe.o: PmergeMe.cpp PmergeMe.hpp PmergeMe.tpp
+	${CPP} ${CPPFLAGS} -c $< -o $@
 
 clean :
 	${RM} ${OBJ}

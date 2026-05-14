@@ -1,23 +1,23 @@
 #include "PmergeMe.hpp"
 
-// PmergeMe::PmergeMe()
-// {
-// }
+int atoi(const std::string &num)
+{
+    if (num.empty())
+        throw std::runtime_error("Error : empty argument");
 
-// PmergeMe::PmergeMe(const PmergeMe &other)
-// {
-// 	*this = other;
-// }
+    if (num[0] == '-')
+        throw std::runtime_error("Error : negative number");
 
-// PmergeMe &PmergeMe::operator=(const PmergeMe &other)
-// {
-//     if (this != &other)
-//     {
-//     }
-//     return *this;
-// }
+    long n = 0;
+    for (int i = 0; num[i]; i++)
+    {
+        if (!isdigit(num[i]))
+            throw std::runtime_error("Error : bad input");
 
-// PmergeMe::~PmergeMe()
-// {
-// }
+        n = (n * 10) + (num[i] - '0');
 
+        if (n > INT_MAX)
+            throw std::runtime_error("Error : bad input");
+    }
+	return n;
+}
