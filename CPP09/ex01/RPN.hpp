@@ -1,9 +1,9 @@
 #ifndef RPN_HPP
 #define RPN_HPP
 
+#include <exception>
 #include <iostream>
 #include <stack>
-#include <exception>
 
 class RPN
 {
@@ -12,10 +12,11 @@ class RPN
 
   public:
     RPN();
+    RPN(const RPN &other);
     RPN &operator=(const RPN &other);
     ~RPN();
 
-	void calculate(const std::string &numbers);
+    void calculate(const std::string &numbers);
 };
 
 #endif

@@ -6,6 +6,11 @@ RPN::RPN()
 {
 }
 
+RPN::RPN(const RPN &other)
+{
+    *this = other;
+}
+
 RPN &RPN::operator=(const RPN &other)
 {
     if (this != &other)
@@ -46,7 +51,7 @@ int div(int num1, int num2)
 
 int executeOperation(char op, int num1, int num2)
 {
-    static int (*calculate_function[4])(int, int) = {add, sub, mult, div};
+    int (*calculate_function[4])(int, int) = {add, sub, mult, div};
 
     int i = 0;
 
@@ -66,18 +71,16 @@ void RPN::calculate(const std::string &numbers)
     {
         if (isdigit(numbers[i]))
             container.push(numbers[i] - '0');
-		else if (isOperator(numbers[i]))
+        else if (isOperator(numbers[i]))
         {
             if (container.size() < 2)
-                throw std::runtime_error(
-                    "Error : at least 2 numbers befor an operator."
-                );
+                throw std::runtime_error("Error : bad input.");
             int num2 = container.top();
             container.pop();
             int num1 = container.top();
             container.pop();
-            int resault  = executeOperation(numbers[i], num1, num2);
-			container.push(resault);
+            int result = executeOperation(numbers[i], num1, num2);
+            container.push(result);
         }
         else
             throw std::runtime_error("Error : bad input.");
@@ -85,7 +88,8 @@ void RPN::calculate(const std::string &numbers)
             throw std::runtime_error("Error : bad input.");
         i++;
     }
-	if (container.size() > 1)
-		throw std::runtime_error("Error : bad input.");
-	std::cout << "result : " << container.top() << std::endl;
+    if (container.size() != 1)
+        throw std::runtime_error("Error : bad input.");
+    std::cout << "result : " << container.top() << std::endl;
+    container = std::stack<int>();
 }
