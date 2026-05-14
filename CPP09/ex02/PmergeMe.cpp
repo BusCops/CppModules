@@ -21,3 +21,34 @@ int atoi(const std::string &num)
     }
 	return n;
 }
+
+std::vector<size_t> jacobsthalSeq(size_t n)
+{
+    std::vector<size_t> seq;
+
+    seq.push_back(0);
+    seq.push_back(1);
+
+    for (size_t i = 2;seq.back() < n;i++)
+        seq.push_back(seq[i - 1] + 2 * seq[i - 2]);
+    return seq;
+}
+
+std::vector<size_t> jacobsthalOrder(size_t n)
+{
+    std::vector<size_t> jac = jacobsthalSeq(n);
+    std::vector<size_t> order;
+
+    for (size_t i = 2; i < jac.size(); i++)
+    {
+        size_t current = std::min(jac[i], n) - 1;
+        size_t prev    = jac[i - 1];
+
+        for (size_t j = current; j >= prev; j--)
+        {
+            if (j < n)
+                order.push_back(j);
+        }
+    }
+    return order;
+}

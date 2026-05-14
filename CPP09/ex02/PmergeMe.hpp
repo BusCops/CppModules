@@ -22,6 +22,7 @@ class PmergeMe
 
     void makePairs(container &nums, pair_container &pairs);
     void mergeInsertSort(container &nums);
+    typename PmergeMe<Container, Value_type>::container::iterator binarySearch(typename container::iterator begin,typename container::iterator end, Value_type val);
 
   public:
     PmergeMe();
@@ -34,5 +35,6 @@ class PmergeMe
 };
 
 int atoi(const std::string &num);
+std::vector<size_t> jacobsthalOrder(size_t n);
 
 #endif
