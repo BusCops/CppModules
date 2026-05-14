@@ -53,9 +53,11 @@ void PmergeMe<Container, Value_type>::makePairs(
 
     for (size_t i = 0; i < pairsSize; i++)
     {
-        int min = std::min(nums[i * 2], nums[(i * 2) + 1]);
-        int max = std::max(nums[i * 2], nums[(i * 2) + 1]);
-        pairs.push_back(std::make_pair(min, max));
+        if (nums[i * 2] > nums[(i * 2) + 1])
+            pairs.push_back(std::make_pair(nums[(i * 2) + 1], nums[i * 2]));
+        else
+            pairs.push_back(std::make_pair(nums[i * 2], nums[(i * 2) + 1]));
+
     }
 
     std::cout << "----------------------------------------------------------" << std::endl;
@@ -73,12 +75,15 @@ void PmergeMe<Container, Value_type>::mergeInsertSort(container &nums)
 
     makePairs(nums, pairs);
 
-    container bigs;
+    container main;
+    container pend;
 
     for (size_t i = 0; i < pairs.size(); i++)
-        bigs.push_back(pairs[i].second);
-    
-    mergeInsertSort(bigs);
+    {
+        main.push_back(pairs[i].second);
+        pend.push_back(pairs[i].first);
+    }
+    mergeInsertSort(main);
 }
 
 template <template <typename, typename> class Container, typename Value_type>
