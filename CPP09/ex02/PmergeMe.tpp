@@ -4,6 +4,9 @@
 #include "PmergeMe.hpp"
 
 template <template <typename, typename> class Container, typename Value_type>
+int PmergeMe<Container, Value_type>::comparCount = 0;
+
+template <template <typename, typename> class Container, typename Value_type>
 PmergeMe<Container, Value_type>::PmergeMe()
 {
 }
@@ -39,7 +42,7 @@ void PmergeMe<Container, Value_type>::parseNums(char **av)
 {
     for (size_t i = 1; av[i]; i++)
     {
-        int n = atoi(av[i]);
+        int n = ft_atoi(av[i]);
         main.push_back(n);
     }
 }
@@ -57,12 +60,17 @@ void PmergeMe<Container, Value_type>::makePairs(
             pairs.push_back(std::make_pair(nums[(i * 2) + 1], nums[i * 2]));
         else
             pairs.push_back(std::make_pair(nums[i * 2], nums[(i * 2) + 1]));
-
+        comparCount++;
     }
 }
 
 template <template <typename, typename> class Container, typename Value_type>
-typename PmergeMe<Container, Value_type>::container::iterator PmergeMe<Container, Value_type>::binarySearch(typename container::iterator begin,typename container::iterator end,Value_type val)
+typename PmergeMe<Container, Value_type>::container::iterator
+PmergeMe<Container, Value_type>::binarySearch(
+    typename container::iterator begin,
+    typename container::iterator end,
+    Value_type                   val
+)
 {
     while (begin < end)
     {
@@ -82,8 +90,8 @@ void PmergeMe<Container, Value_type>::mergeInsertSort(container &nums)
     if (nums.size() <= 1)
         return;
 
-    bool hasLeftOver = nums.size() % 2 != 0;
-    Value_type leftOver = hasLeftOver ? nums.back() : Value_type();
+    bool       hasLeftOver = nums.size() % 2 != 0;
+    Value_type leftOver    = hasLeftOver ? nums.back() : Value_type();
 
     pair_container pairs;
 
@@ -98,9 +106,9 @@ void PmergeMe<Container, Value_type>::mergeInsertSort(container &nums)
 
     pair_container sortedPairs;
 
-    for  (size_t i = 0; i < larger.size();i++)
+    for (size_t i = 0; i < larger.size(); i++)
     {
-        for (size_t j = 0;j < pairs.size(); j++)
+        for (size_t j = 0; j < pairs.size(); j++)
         {
             if (larger[i] == pairs[j].second)
             {
@@ -113,26 +121,28 @@ void PmergeMe<Container, Value_type>::mergeInsertSort(container &nums)
     container chain;
 
     chain.push_back(sortedPairs[0].first);
-    for (size_t i = 0;i < sortedPairs.size();i++)
+    for (size_t i = 0; i < sortedPairs.size(); i++)
         chain.push_back(sortedPairs[i].second);
 
     std::vector<size_t> order = jacobsthalOrder(sortedPairs.size());
 
-    for (size_t i = 0;i < order.size();i++)
+    for (size_t i = 0; i < order.size(); i++)
     {
         size_t idx = order[i];
 
-        if(idx == 0)
+        if (idx == 0)
             continue;
 
-        Value_type value = sortedPairs[idx].first;
-        typename container::iterator pos = binarySearch(chain.begin(), chain.end(), value);
+        Value_type                   value = sortedPairs[idx].first;
+        typename container::iterator pos =
+            std::lower_bound(chain.begin(), chain.end(), value, comp);
         chain.insert(pos, value);
     }
 
     if (hasLeftOver)
     {
-        typename container::iterator pos = binarySearch(chain.begin(), chain.end(), leftOver);
+        typename container::iterator pos =
+            std::lower_bound(chain.begin(), chain.end(), leftOver, comp);
         chain.insert(pos, leftOver);
     }
 
@@ -142,21 +152,23 @@ void PmergeMe<Container, Value_type>::mergeInsertSort(container &nums)
 template <template <typename, typename> class Container, typename Value_type>
 void PmergeMe<Container, Value_type>::sort()
 {
-     std::cout << "befor" << "\n";       
-    for(size_t i = 0;i < main.size();i++)
+    std::cout << "befor" << "\n";
+    for (size_t i = 0; i < main.size(); i++)
     {
         std::cout << " " << main[i] << " ";
     }
     std::cout << "\n";
 
     mergeInsertSort(main);
-    
-    std::cout << "after" << "\n";       
-    for(size_t i = 0;i < main.size();i++)
+
+    std::cout << "after" << "\n";
+    for (size_t i = 0; i < main.size(); i++)
     {
         std::cout << " " << main[i] << " ";
     }
     std::cout << "\n";
+
+    std::cout << "number of comparison -> " << comparCount << std::endl;
 }
 
 #endif

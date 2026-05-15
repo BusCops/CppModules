@@ -1,6 +1,6 @@
 #include "PmergeMe.hpp"
 
-int atoi(const std::string &num)
+int ft_atoi(const std::string &num)
 {
     if (num.empty())
         throw std::runtime_error("Error : empty argument");
