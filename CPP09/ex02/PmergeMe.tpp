@@ -4,7 +4,7 @@
 #include "PmergeMe.hpp"
 
 template <template <typename, typename> class Container, typename Value_type>
-int PmergeMe<Container, Value_type>::comparCount = 0;
+int PmergeMe<Container, Value_type>::COMPARE_COUNTER = 0;
 
 template <template <typename, typename> class Container, typename Value_type>
 PmergeMe<Container, Value_type>::PmergeMe()
@@ -26,8 +26,7 @@ PmergeMe<Container, Value_type> &PmergeMe<Container, Value_type>::operator=(
 {
     if (this != &other)
     {
-        main = other.nums;
-        // pairs = other.pairs;
+        main = other.main;
     }
     return *this;
 }
@@ -35,16 +34,6 @@ PmergeMe<Container, Value_type> &PmergeMe<Container, Value_type>::operator=(
 template <template <typename, typename> class Container, typename Value_type>
 PmergeMe<Container, Value_type>::~PmergeMe()
 {
-}
-
-template <template <typename, typename> class Container, typename Value_type>
-void PmergeMe<Container, Value_type>::parseNums(char **av)
-{
-    for (size_t i = 1; av[i]; i++)
-    {
-        int n = ft_atoi(av[i]);
-        main.push_back(n);
-    }
 }
 
 template <template <typename, typename> class Container, typename Value_type>
@@ -60,28 +49,8 @@ void PmergeMe<Container, Value_type>::makePairs(
             pairs.push_back(std::make_pair(nums[(i * 2) + 1], nums[i * 2]));
         else
             pairs.push_back(std::make_pair(nums[i * 2], nums[(i * 2) + 1]));
-        comparCount++;
+        COMPARE_COUNTER++;
     }
-}
-
-template <template <typename, typename> class Container, typename Value_type>
-typename PmergeMe<Container, Value_type>::container::iterator
-PmergeMe<Container, Value_type>::binarySearch(
-    typename container::iterator begin,
-    typename container::iterator end,
-    Value_type                   val
-)
-{
-    while (begin < end)
-    {
-        typename container::iterator mid = begin + (end - begin) / 2;
-
-        if (*mid < val)
-            begin = mid + 1;
-        else
-            end = mid;
-    }
-    return begin;
 }
 
 template <template <typename, typename> class Container, typename Value_type>
@@ -104,7 +73,7 @@ void PmergeMe<Container, Value_type>::mergeInsertSort(container &nums)
 
     mergeInsertSort(larger);
 
-    pair_container sortedPairs;
+    pair_container    sortedPairs;
     std::vector<bool> used(pairs.size(), false);
 
     for (size_t i = 0; i < larger.size(); i++)
@@ -160,25 +129,36 @@ void PmergeMe<Container, Value_type>::mergeInsertSort(container &nums)
 }
 
 template <template <typename, typename> class Container, typename Value_type>
-void PmergeMe<Container, Value_type>::sort()
+typename PmergeMe<Container, Value_type>::container &
+PmergeMe<Container, Value_type>::sort(std::vector<int> &nums)
 {
-    std::cout << "befor" << "\n";
-    for (size_t i = 0; i < main.size(); i++)
-    {
-        std::cout << " " << main[i] << " ";
-    }
-    std::cout << "\n";
+    for (size_t i = 0; i < nums.size(); i++)
+        main.push_back(nums[i]);
+
+    clock_t start = clock();
 
     mergeInsertSort(main);
 
-    std::cout << "after" << "\n";
-    for (size_t i = 0; i < main.size(); i++)
-    {
-        std::cout << " " << main[i] << " ";
-    }
-    std::cout << "\n";
+    clock_t end = clock();
 
-    std::cout << "number of comparison -> " << comparCount << std::endl;
+    timeToSort = (double(end - start) / CLOCKS_PER_SEC) * 1000000;
+    
+    numOfComparisons = COMPARE_COUNTER;
+    COMPARE_COUNTER  = 0;
+
+    return main;
+}
+
+template <template <typename, typename> class Container, typename Value_type>
+int PmergeMe<Container, Value_type>::getComparisionCount()
+{
+    return numOfComparisons;
+}
+
+template <template <typename, typename> class Container, typename Value_type>
+double PmergeMe<Container, Value_type>::getTimeToSort()
+{
+    return timeToSort;
 }
 
 #endif
