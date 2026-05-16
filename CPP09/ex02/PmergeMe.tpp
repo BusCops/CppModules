@@ -1,5 +1,5 @@
-#ifndef ARRAY_T
-#define ARRAY_T
+#ifndef PERMGEME_TPP
+#define PERMGEME_TPP
 
 #include "PmergeMe.hpp"
 
@@ -105,14 +105,16 @@ void PmergeMe<Container, Value_type>::mergeInsertSort(container &nums)
     mergeInsertSort(larger);
 
     pair_container sortedPairs;
+    std::vector<bool> used(pairs.size(), false);
 
     for (size_t i = 0; i < larger.size(); i++)
     {
         for (size_t j = 0; j < pairs.size(); j++)
         {
-            if (larger[i] == pairs[j].second)
+            if (!used[j] && pairs[j].second == larger[i])
             {
                 sortedPairs.push_back(pairs[j]);
+                used[j] = true;
                 break;
             }
         }
@@ -121,10 +123,13 @@ void PmergeMe<Container, Value_type>::mergeInsertSort(container &nums)
     container chain;
 
     chain.push_back(sortedPairs[0].first);
+
     for (size_t i = 0; i < sortedPairs.size(); i++)
         chain.push_back(sortedPairs[i].second);
 
-    std::vector<size_t> order = jacobsthalOrder(sortedPairs.size());
+    size_t totalPending = sortedPairs.size() + hasLeftOver;
+
+    std::vector<size_t> order = jacobsthalOrder(totalPending);
 
     for (size_t i = 0; i < order.size(); i++)
     {
@@ -133,17 +138,22 @@ void PmergeMe<Container, Value_type>::mergeInsertSort(container &nums)
         if (idx == 0)
             continue;
 
-        Value_type                   value = sortedPairs[idx].first;
-        typename container::iterator pos =
-            std::lower_bound(chain.begin(), chain.end(), value, comp);
-        chain.insert(pos, value);
-    }
+        if (hasLeftOver && idx == totalPending - 1)
+        {
+            typename container::iterator pos =
+                std::lower_bound(chain.begin(), chain.end(), leftOver, comp);
+            chain.insert(pos, leftOver);
+            continue;
+        }
 
-    if (hasLeftOver)
-    {
+        Value_type value   = sortedPairs[idx].first;
+        Value_type pairVal = sortedPairs[idx].second;
+
+        typename container::iterator upperBound =
+            std::find(chain.begin(), chain.end(), pairVal);
         typename container::iterator pos =
-            std::lower_bound(chain.begin(), chain.end(), leftOver, comp);
-        chain.insert(pos, leftOver);
+            std::lower_bound(chain.begin(), upperBound, value, comp);
+        chain.insert(pos, value);
     }
 
     nums = chain;
